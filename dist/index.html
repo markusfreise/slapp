@@ -1,0 +1,229 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLAPP 2.0</title>
+    <script src="config.js"></script>
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="brand.css">
+    <style type="text/css">
+        body.hide {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="hide">
+    <div id="app">
+        <div class="bgVideo" v-if="bgVideo">
+            <video :src="'video/'+brand+'/bg.mp4'" autoplay loop muted></video>
+        </div>
+        <div class="hostBar" v-if="isHost" :class="{ locked: keysLocked }">
+            <span class="button" @click="isHost = !isHost"><span>Host</span><span>H</span></span>
+            <span class="button" @click="isSingle = !isSingle"><span>Single</span><span>M</span></span>
+            <span class="button" @click="setSetRound"><span>Runde</span><span>G</span></span>
+            <span class="button"><span>Poet</span><span>1-0</span></span>
+            <span class="button" @click="setPage('poet')"><span>Name</span><span>P</span></span>
+            <span class="button" @click="setPage('poetscores')"><span>Eingabe</span><span>J</span></span>
+            <span class="button" @click="setPage('poetscore')"><span>Ergebnis</span><span>S</span></span>
+            <span class="button" @click="setPage('poetlist')"><span>Liste</span><span>L</span></span>
+            <span class="button" @click="setPage('ranking')"><span>Ranking</span><span>R</span></span>
+            <span class="button" @click="setPage('ranking-all')"><span>Complete</span><span>F</span></span>
+            <span class="button" @click="setPage('top3')"><span>Finalists</span><span>T</span></span>
+            <span class="button" @click="setPage('winner')"><span>Winner</span><span>W</span></span>
+            <span class="button" @click="makeFinale"><span>Finale</span><span>Q</span></span>
+            <span class="button" @click="setPage('logo')"><span>Logo</span><span>Y</span></span>
+            <span class="button" @click="setPage('sponsor')"><span>Sponsor</span><span>A</span></span>
+            <span class="button" @click="setPage('rules')"><span>Regeln</span><span>I</span></span>
+        </div>
+        <div class="statusBar" v-if="isHost && rounds > 1">
+            <span v-if="!setRound">Round ${ showRound }</span>
+            <span v-else>Choose round 1 to ${ rounds }</span>
+        </div>
+        <!-- RULES VIDEO -->
+        <!-- RULES VIDEO -->
+        <!-- RULES VIDEO -->
+        <section id="rules" class="sponsor" v-if="showRules">
+            <video :src="'video/'+brand+'/rules.mp4'" autoplay loop muted></video>
+        </section>
+        <!-- SPONSORS VIDEO -->
+        <!-- SPONSORS VIDEO -->
+        <!-- SPONSORS VIDEO -->
+        <section id="sponsor" class="sponsor" v-if="showSponsor">
+            <video :src="'video/'+brand+'/loop.mp4'" autoplay loop muted></video>
+        </section>
+        <!-- LOGO -->
+        <!-- LOGO -->
+        <!-- LOGO -->
+        <section id="logo" class="logo" v-if="showLogo">
+            <img :src="'./images/'+brand+'.png'">
+        </section>
+        <!-- POET NAME -->
+        <!-- POET NAME -->
+        <!-- POET NAME -->
+        <section id="poet" class="poet name" v-if="showPoet">
+            <div class="stage" v-if="getCurrentPoet">
+                <h1 class="poet__name">${ getCurrentPoet?.name }</h1>
+                <p class="poet__slam">${ getCurrentPoet?.slam }</p>
+            </div>
+        </section>
+        <!-- POET SCORES -->
+        <!-- POET SCORES -->
+        <!-- POET SCORES -->
+        <section id="poetscores" class="poet scores" v-if="showPoetScores" @keyup="enterScore" tabIndex="0">
+            <div class="stage" v-if="getCurrentPoet">
+                <h1 class="poet__name">${ getCurrentPoet?.name }</h1>
+                <div class="scores">
+                    <div v-if="onlyValidScores" class="score score__board" v-for="s,index in onlyValidScores(getCurrentPoet)" :class="{ edit: ((s==0 || index == currentScoreEdit) && isHost), isHigh: getCurrentPoet.isHigh==index && !scoreMissing, isLow: getCurrentPoet.isLow==index && !scoreMissing }">
+                        <span v-if="!decimals || index != currentScoreEdit || currentScoreDecimal==''">${ s }</span>
+                        <span v-else>${ currentScoreDecimal }.</span>
+                    </div>
+                    <div v-if="scoreMissing" class="score score__board">
+                        <span>?</span>
+                    </div>
+                </div>
+                <p v-if="debug">${ getCurrentPoet?.total }</p>
+            </div>
+        </section>
+        <!-- POET SCORE -->
+        <!-- POET SCORE -->
+        <!-- POET SCORE -->
+        <section id="poetscore" class="poet score" v-if="showPoetScore">
+            <div class="stage" v-if="getCurrentPoet">
+                <h1 class="poet__name">${ getCurrentPoet?.name }</h1>
+                <p class="total bold" id="total">${ getCurrentPoet?.total }</p>
+                <div class="scores">
+                    <div v-if="onlyValidScores" class="score score__board" v-for="s,index in onlyValidScores(getCurrentPoet)" :class="{ edit: (s==0 || index == currentScoreEdit) && isHost, isHigh: getCurrentPoet.isHigh==index, isLow: getCurrentPoet.isLow==index }">
+                        <span v-if="!decimals || index != currentScoreEdit || currentScoreDecimal==''">${ s }</span>
+                        <span v-else>${ currentScoreDecimal }.</span>
+                    </div>
+                </div>
+                <p v-if="debug">${ getCurrentPoet?.total }</p>
+            </div>
+        </section>
+        <!-- WINNER -->
+        <!-- WINNER -->
+        <!-- WINNER -->
+        <section id="winner" class="poetlist winner" v-if="showWinner">
+            <div class="stage">
+                <div class="list">
+                    <div v-for="p,index in getPoets('winner')" class="poet show poetrank">
+                        <div class="name">
+                            <span class="poet__name">${ p.name }</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- TOP3 -->
+        <!-- TOP3 -->
+        <!-- TOP3 -->
+        <section id="top3" class="poetlist top3" v-if="showTop3">
+            <div class="stage">
+                <div class="list">
+                    <div v-for="p,index in getPoets('finalists')" class="poet poetrank">
+                        <div class="name">
+                            <span class="poet__name">${ p.name }</span>
+                            <span class="total bold">${ p.total }</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- RANKING -->
+        <!-- RANKING -->
+        <!-- RANKING -->
+        <section id="ranking" class="poetlist" v-if="showRanking">
+            <div class="stage">
+                <div class="list">
+                    <div v-for="p,index in getPoets('ranking')" class="poet poetrank">
+                        <div class="name">
+                            <span class="poet__name">${ p.name }</span>
+                            <span class="total bold">${ p.total }</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- RANKING ALL GROUPS -->
+        <!-- RANKING ALL GROUPS -->
+        <!-- RANKING ALL GROUPS -->
+        <section id="ranking" class="poetlist" v-if="showRankingAll">
+            <div class="stage">
+                <div class="list">
+                    <div v-for="r in rounds" class="round">
+                        <h2 v-if="rounds>1">Runde ${ r }</h2>
+                        <div v-for="p,index in getPoets('ranking',r)" class="poet poetrank" :class="{ highlight : highlightPoet(p,index) }">
+                            <div class="name">
+                                <span class="poet__name">${ p.name }</span>
+                                <span class="total bold">${ p.total }</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- LIST -->
+        <!-- LIST -->
+        <!-- LIST -->
+        <section id="poetlist" class="poetlist list" v-if="showPoetList">
+            <div class="stage">
+                <div class="list">
+                    <div v-for="r in rounds">
+                    <h2 v-if="rounds>1">Runde ${ r }</h2>
+                    <div v-for="p,index in getPoets('list',r)" class="poet">
+                        <div class="name">
+                            <span v-if="isHost" class="button" @click="setPoet(p.index)">${p.index}</span>
+                            <input @focus="lockKeys" @blur="unlockKeys" type="text" v-model="p.round" class="poet__round" placeholder="R" v-if="rounds>1" />
+                            <div>
+                                <input @focus="lockKeys" placeholder="Name" @blur="unlockKeys" type="text" v-model="p.name" class="poet__name"/>
+                                <input @focus="lockKeys" placeholder="Tritt an für … (optional)" @blur="unlockKeys" type="text" v-model="p.slam" class="poet__slam"/>
+                            </div>
+                            <span class="total bold">${ p.total }</span>
+                        </div>
+                        <div class="scores">
+                            <div class="score" v-for="s in scoreBoards">
+                                <input @focus="lockKeys" @blur="unlockKeys" type="text" v-model="p.scores[s-1]" class="score__board" />
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="settings">
+                    <div>
+                        <p>Rounds</p>
+                        <div><input @focus="lockKeys" @blur="unlockKeys" type="text" v-model="rounds" /></div>
+                    </div>
+                    <div>
+                        <p>Boards</p>
+                        <div><input @focus="lockKeys" @blur="unlockKeys" type="text" v-model="scoreBoards" /></div>
+                    </div>
+                    <div>
+                        <p>Finalists</p>
+                        <div><input @focus="lockKeys" @blur="unlockKeys" type="text" v-model="topPoets" /></div>
+                    </div>
+                    <div>
+                        <p>Decimals</p>
+                        <div><input @focus="lockKeys" @blur="unlockKeys" type="checkbox" id="decimals" v-model="decimals" /><label for="decimals"><span>
+                            <span>OFF</span>
+                            <span>ON</span>
+                        </span></label></div>
+                    </div>
+                    <div>
+                        <p>Lucky Loser</p>
+                        <div><input @focus="lockKeys" @blur="unlockKeys" type="checkbox" id="luckyloser" v-model="luckyloser" /><label for="luckyloser"><span>
+                            <span>OFF</span>
+                            <span>ON</span>
+                        </span></label></div>
+                    </div>
+                </div>
+            <div class="options" v-if="isHost">
+                <button v-on:click="addPoet('')">Add Poet</button>
+                <button v-on:click="shufflePoets">Shuffle</button>
+                <button @click="recalc">Recalc</button>
+            </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

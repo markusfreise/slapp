@@ -1,0 +1,22 @@
+@use "sass:math";
+
+@function pxtovw($px, $base: 375) {
+    @return math.div($px, ($base*0.01)) * 1vw;
+}
+
+@function pxtorem($px, $base: 16) {
+    @return math.div($px, $base) * 1rem;
+}
+
+@function pxtoem($px, $base: 16) {
+    @return math.div($px, $base) * 1em;
+}
+
+/*******************************************/
+/*
+/*  Mixins
+*/
+
+.shadow-inset {
+    box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.25);
+}

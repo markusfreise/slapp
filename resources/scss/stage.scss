@@ -1,0 +1,310 @@
+.poet {
+    &__name {
+        font-weight: bold;
+        strong {
+            font-weight: 900;
+        }
+    }
+    &__round {
+        align-self: stretch;
+        border: solid 1px white !important;
+        color: white;
+        border-radius: 0;
+        width: 1.5em;
+        margin-right: 0.5em;
+        text-align: center;
+    }
+}
+
+.total {
+    letter-spacing: -0.05em;
+    &.bold {
+        font-weight: 900 !important;
+    }
+}
+
+.logo {
+    img {
+        max-width: 480px;
+        height: auto;
+        opacity: 0;
+    }
+    &.show {
+        img {
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+            transition-delay: 0.4s;
+        }
+    
+    }
+}
+
+@keyframes pulseEditInSize {
+    0% {
+        transform: scale(1.24) rotate(2.4deg)
+    }
+    50% {
+        transform: scale(1.3) rotate(2.4deg)
+    }
+    100% {
+        transform: scale(1.24) rotate(2.4deg)
+    }
+}
+.score {
+    &__board {
+    position: relative;
+        font-weight: bold;
+            background: white;
+            color: #242424;
+            padding: 0.6em 0 0.5em;
+            width: 1.8em;
+            text-align: center;
+            font-size: calc(1 * var(--fs-large));
+            letter-spacing: -0.05em;
+            @media(min-width: 1024px){
+                font-size: calc(2 * var(--fs-large));
+            }
+            &:not(:first-child) {
+                margin-left: 0.2em;
+            }
+            &.edit {
+                z-index: 1986;
+                animation: pulseEditInSize 1s infinite;
+                box-shadow: 0 6px 12px rgba(0,0,0,0.24);
+            }
+            &:not(.edit).isHigh {
+                transform: translateY(-24%) rotate(-2.4deg) scale(0.9);
+                transition: transform 0.5s ease-in-out;
+                opacity: 0.5;
+            }
+            &:not(.edit).isLow {
+                transform: translateY(24%) rotate(-2.4deg) scale(0.9);
+                transition: transform 0.5s ease-in-out;
+                opacity: 0.5;
+            }
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}):not(input) {
+                    transform: rotate(#{(random(8) - 4)}deg) translateY(#{(random(8) - 4)}px);
+                }
+            }
+    }
+}
+
+section,
+.stage {
+    position: relative;
+    z-index: 1;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .stage {
+        flex-grow: 1;
+    }
+    .options {
+        padding: var(--gap);
+        button {
+            margin: 0 var(--gap);
+        }
+    }
+    video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+    }
+}
+
+section.poet {
+    display: flex;
+    flex-direction: column;
+    h1 {
+            margin-bottom: var(--gap);
+    }
+    &.scores {
+        h1 {
+            margin-bottom: var(--m-vert);
+        }
+    }
+    &.name {
+        .poet {
+            &__name {
+                font-size: calc(2 * var(--fs-large));
+                @media(min-width: 1024px){
+                    font-size: calc(4 * var(--fs-large));
+                }
+            }
+            &__slam {
+                font-size: var(--fs-large);
+                @media(min-width: 1024px){
+                    font-size: calc(2 * var(--fs-large));
+                }
+                opacity: 0.8;
+            }
+        }
+    }
+    .scores {
+        display: flex;
+    }
+    .total {
+        font-size: calc(3 * var(--fs-large));
+        font-weight: bold;
+        margin-bottom: var(--gap-2x);
+        @media(min-width: 1024px){
+            font-size: calc(9 * var(--fs-large));
+        }
+        &#total {
+            opacity: 0;
+            transform: scale(4) rotate(1440deg);
+        }
+        &#total.show {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+            transition-delay: 1s;
+        }
+    }
+    .previewDecimal {
+        font-size: var(--fs-large);
+        opacity: 0.5;
+        margin-top: var(--m-vert);
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 720px;
+    h2 {
+        margin: var(--gap) 0;
+        font-size: 2em;
+    }
+    .round {
+        width: 100%;
+        margin-bottom: var(--gap);
+        h2 {
+            margin: 0 0 var(--gap);
+            font-size: 1.5em;
+        }
+    }
+    .poet {
+        width: 100%;
+        display: flex;
+        margin: 0 0 var(--gap);
+        flex-direction: column;
+        &.highlight {
+            .poet__name {
+                background: var(--brand-colour);
+                color: white;
+                padding: 0.1em 0.3em;
+                border-radius: 0.1em;
+            }
+        }
+        .name {
+            margin: 0 0 var(--gap);
+            font-size: var(--fs-large);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            input {
+                padding: 0;
+                border: none;
+                &:focus {
+                    color: var(--brand-colour)
+                }
+            }
+            span:first-child {
+                margin-right: var(--gap);
+                font-size: 0.86em;
+            }
+            input+span {
+                margin-left: var(--gap);
+            }
+            .poet__slam {
+                font-size: var(--fs-copy);
+            }
+        }
+        .scores {
+            width: 100%;
+            display: flex;
+            .score {
+                flex-grow: 1;
+                input {
+                    width: 100%;
+                    background: white;
+                    color: black;
+                    border-radius: 0;
+                    text-align: center;
+                    font-size: 1.2em;
+                    font-weight: bold;
+                }
+                &.isHigh,
+                &.isLow {
+                    opacity: 0.24;
+                    transform: translateY(10%);
+                }
+                &.isHigh {
+                    transform: translateY(-10%);
+                }
+            }
+            div:not(:first-child) {
+                margin-left: var(--gap);
+            }
+        }
+    }
+}
+
+section#ranking {
+    .poet {
+        span {
+            font-size: 1.5em !important;
+        }
+    }
+}
+
+section.top3 {
+    .list {
+        flex-direction: column-reverse;
+    }
+    .poet {
+        span {
+            opacity: 0;
+            font-size: 2em !important;
+        }
+        &.show {
+            span {
+                transition: opacity 1s ease-in-out;
+                opacity: 1;
+                transition-delay: 0.4s;
+                &.poet__name {
+                    transition-delay: 2.1s;
+                }
+            }
+        }
+    }
+}
+
+
+section.winner {
+    .list {
+        flex-direction: column-reverse;
+        align-items: center;
+        max-width: none;
+    }
+    .poet {
+        .name {
+            justify-content: center;
+        }
+        span {
+            text-align: center;
+            font-size: 3em !important;
+        }
+    }
+}

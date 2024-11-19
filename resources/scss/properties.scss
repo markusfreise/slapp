@@ -1,0 +1,103 @@
+:root {
+    
+    // Colours
+    --bg-color: #000000;
+    --text-color: #fff;
+    --brand-colour: #ff0000;
+    
+    // Fonts
+    --ff-copy: 'Heebo',sans-serif;
+    @media(min-width: 1024px){
+        --fs-copy: 1rem;
+    }
+    --ff-head: 'Heebo',sans-serif;
+    --ff-fixed: sans-serif;
+    
+    --fs-small: #{pxtoem(12)};
+    --fs-copy: #{pxtorem(18)};
+    --fs-large: #{pxtorem(32)};
+    --fs-hl-small: #{pxtorem(18)};
+    --fs-hl-medium: #{pxtorem(26)};
+    --fs-hl-large: #{pxtorem(32)};
+    --fs-medium: var(--fs-copy);
+
+    // Widths
+    --max-width: calc(100vw - 4rem);
+    --width-margin: 2rem;
+    @media(min-width: 1024px) {
+        --max-width: 960px;
+        --width-margin: calc(50vw - var(--max-width) * 0.5);
+    }
+    @media(min-width: 1280px) {
+        --max-width: 60rem;
+    }
+    @media(min-width: 1440px) {
+        --max-width: 72rem;
+    }
+    
+    --article-width: var(--max-width);
+    @media(min-width: 1280px){
+        --article-width: 55rem;
+    }
+    @media(min-width: 1440px){
+        --article-width: 1124px;
+    }
+    --width-margin-article: calc(50vw - var(--article-width) * 0.5);
+
+    // Margins
+
+    --gap: 0.7rem;
+    @media(min-width: 768px){
+        --gap: 1rem;
+    }
+
+    --m-vert: #{pxtorem(64)};
+    --m-vert-slim: #{pxtorem(32)};
+    @media(min-width: 1024px){
+        --m-vert: #{pxtorem(117)};
+        --m-vert-slim: #{pxtorem(86)};
+    }
+
+    // Calcs
+    --m-vert-2x: calc(2 * var(--m-vert));
+    --gap-2x: calc(2 * var(--gap));
+    --gap-3x: calc(3 * var(--gap));
+    --gap-4x: calc(4 * var(--gap));
+    --gap-6x: calc(6 * var(--gap));
+
+    // Radius
+    --radius: #{pxtorem(20)};
+    --radius-small: #{pxtorem(5)};
+
+    // Schatten
+    --shadow: 0px 25px 40px 0px rgba(0, 0, 0, 0.05);
+    --shadow-flat: 0px 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+div.gap {
+    width: var(--gap);
+}
+
+div.gap2x {
+    width: var(--gap-2x);
+}
+
+div.gap4x {
+    width: var(--gap-4x);
+}
+
+div.m-vert {
+    width: var(--m-vert);
+}
+
+div.m-vert-slim {
+    width: var(--m-vert-slim);
+}
+
+div.width-margin {
+    width: var(--width-margin);
+}
+
+div.article-width {
+    width: var(--article-margin);
+}

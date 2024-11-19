@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Heebo';
+    src: url('../css/fonts/Heebo-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Heebo';
+    src: url('../css/fonts/Heebo-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'Heebo';
+    src: url('../css/fonts/Heebo-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
+h1 {
+    font-size: var(--fs-hl-large);
+}

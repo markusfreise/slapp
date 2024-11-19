@@ -1,0 +1,87 @@
+/*
+    SLAPP
+    =====    
+    A software for Poetry Slams
+    
+    Version 1
+    
+    by Markus Freise
+
+	This Source Code Form is subject to the terms 
+	of the Mozilla Public License, v. 2.0. If a copy 
+	of the MPL was not distributed with this file, 
+	You can obtain one at http://mozilla.org/MPL/2.0/.
+    
+    E-Mail: markus@freise.de
+
+*/
+
+.noprint {
+	display: none;
+}
+
+/* Schwarz */ 
+
+body,
+div#rahmen960 {
+	color: black;
+	background: white;
+}
+
+div#druckkopf {
+	padding: 0 0 1em 0;
+	margin: 0 0 2em 0;
+	border-bottom: solid 2pt black;
+	line-height: 1.2;
+}
+
+div#druckkopf h1 {
+	font-size: 180%;
+	font-weight: bold;
+	line-height: 1.2;
+}
+
+div#druckkopf h2 {
+	font-weight: bold;
+	margin-bottom: 4mm;
+}
+
+div#druckkopf small {
+	font-size: 77%;
+}
+
+/************************************************************************************************/
+/*
+/*  Content
+*/
+
+div#copy {
+	margin: 33px 0 0 0;
+}
+
+div#copy h1 {
+	margin: 0 0 20px 0;
+}
+
+div#copy h2 {
+	margin: 30px 0 10px 0;
+}
+
+div#copy h3,
+div#copy h4 {
+	margin: 20px 0 10px 0;
+}
+
+div#copy li,
+div#copy p {
+	margin: 0 0 10px 0;
+}
+
+div#copy ul,
+div#copy ol {
+	margin: 20px 0 20px 20px;
+}
+
+div#copy ul li {
+	padding: 0 0 0 20px;
+}

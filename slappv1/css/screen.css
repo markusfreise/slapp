@@ -1,0 +1,474 @@
+/*
+    SLAPP
+    =====    
+    A software for Poetry Slams
+    
+    Version 1
+    
+    by Markus Freise
+
+	This Source Code Form is subject to the terms 
+	of the Mozilla Public License, v. 2.0. If a copy 
+	of the MPL was not distributed with this file, 
+	You can obtain one at http://mozilla.org/MPL/2.0/.
+    
+    E-Mail: markus@freise.de
+
+*/
+
+html, body {
+	height: 100%;
+	overflow: hidden;
+	background: black;
+}
+
+div#rahmen {
+	width: 100%;
+	margin: 0 auto;
+	min-height: 100%;
+	overflow: hidden;
+}
+
+div.screen,
+div#content {
+	position: relative;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+
+p {
+	margin: 0 0 10px 0;
+}
+
+p.event {
+	margin: 0;
+}
+
+div.screen {
+	overflow: hidden;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -512px;
+	margin-top: -384px;
+	width: 1024px;
+	padding-top: 50px;
+	height: 718px;
+	overflow: hidden;
+	display: none;
+}
+
+div.screen.video {
+	padding: 0;
+	height: 768px;
+}
+
+body.notbuttonshow ._mf_button {
+	display: none;
+}
+
+#addpoet ._mf_button {
+	display: inline-block !important;
+}
+
+/************************************************************************************************/
+/*
+/*  Help
+*/
+
+div#help div#credits {
+	text-align: center;
+	float: left;
+	width: 260px;
+	margin-right: 60px;
+}
+
+div#help ul {
+	float: left;
+	width: 640px;
+}
+
+div#help ul span {
+	width: 60px;
+	clear: left;
+	float: left;
+}
+
+div#help ul div {
+	float: left;
+	width: 540px;
+	margin: 0 0 10px 0;
+}
+
+div#help ul div p {
+	display: none;
+}
+
+div#help h3 {
+	margin: 20px 0 10px 0;
+}
+
+div#help h2 {
+	margin: 0 0 5px 0;
+}
+
+div#rundenplan {
+	margin: 30px 0 0 0;
+}
+
+div#rundenplan p {
+	margin: 0;
+}
+
+p.event {
+	margin: 0 0 5px 0;
+}
+
+div.config {
+	clear: left;
+	text-align: left;
+	margin: 20px 0;
+}
+
+div.config label {
+	display: inline-block;
+	margin: 0 8px 0 0;
+}
+
+div.config input + label {
+	vertical-align: top;
+	display: inline-block;
+	margin: 0 0 0 8px;
+	width: 230px;
+}
+
+div.config a._mf_button {
+	display: block;
+}
+
+/************************************************************************************************/
+/*
+/* Black
+*/
+
+div#logo.screen {
+	background: url("../images/background.jpg") no-repeat;
+	text-align: center;
+}
+
+
+/************************************************************************************************/
+/*
+/*  Rooster
+*/
+
+ul#tabs {
+	display: block !important;
+}
+
+ul.rooster {
+	margin: 20px auto;
+	width: 1000px;
+}
+
+ul.rooster li.poet:first-child {
+	border-top: solid 1px #cccccc;
+}
+
+ul.rooster li.poet {
+	overflow: hidden;
+	margin: 0 10px 0 0;
+	display: block;
+	padding: 12px 5px;
+	border-bottom: solid 1px #cccccc;
+	height: 100%;
+}
+
+ul.rooster li.buttons {
+	text-align: center;
+	padding-top: 10px;
+}
+
+ul.rooster li span {
+	float: right;
+	display: inline-block;
+	margin: 0 0 0 10px;
+	text-align: center;
+}
+
+ul.rooster li span.name {
+	width: 320px;
+	text-align: left;
+}
+
+ul.rooster li.addpoet {
+	float: left;
+	margin: 0 10px 0 0;
+}
+
+ul.rooster li.addpoet.first {
+	clear: left;
+}
+
+ul.votes {
+	float: left;
+}
+
+/* Bout */
+
+ul#bout {
+	width: 600px;
+}
+
+ul#bout h1 {
+	width: 500px;
+	display: inline-block;
+	float: left;
+}
+
+ul#bout li {
+	width: 600px;
+}
+
+ul#bout li.poet {
+	cursor: move;
+}
+
+ul#bout li.poet a {
+	float: right;
+	margin: 3px 5px 0 0;
+}
+
+ul#bout div.votes,
+ul#bout div.score {	
+	display: none;
+}
+
+/* Einzelner Rooster */ 
+
+
+div#rooster ul#rooster {
+	width: 900px;
+	position: absolute;
+	bottom: 0;
+	height: 768px;
+	left: 50%;
+	margin-left: -450px;
+}
+
+ul#rooster li.poet span.vote {
+	position: absolute;
+	left: 0;
+	bottom: 280px;
+	width: 100px;
+	height: 140px;
+	display: block;
+	padding: 48px 30px 0 21px;
+	border: solid 1px black;
+	text-align: center;
+	background: white;
+}
+
+body.edit ul#rooster li.poet span.vote.active {
+	bottom: -40px !important;
+	z-index: 1905;
+}
+
+ul#rooster li.poet span.vote.strike {
+	bottom: 120px;
+}
+
+ul#rooster li.poet.incomplete span.vote.strike {
+	bottom: 280px;
+}
+
+ul#rooster li.poet span.vote.empty {
+	bottom: -520px;
+}
+
+div#rooster div#hauptsponsor {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+}
+
+/* Rooster */
+
+div.votes {
+	position: relative;
+	height: 100%;
+}
+
+ul#rooster div.score,
+ul#rooster_score div.score,
+ul#rooster h1,
+ul#rooster_winner h1,
+ul#rooster_name h1,
+ul#rooster_score h1,
+ul.rooster div.votes {
+	width: 100%;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+ul#rooster h1 {
+	position: absolute;
+	left: -180px;
+	top: 30%;
+	width: auto;
+	margin-left: -0;
+	margin-top: -100px;
+	background: #fff;
+	color: #000;
+	padding: 24px 24px 8px 200px;
+	line-height: 1;
+}
+
+ul#rooster li.poet {
+	border: none;	
+}
+
+ul#rooster div.score,
+ul#rooster span.edit {
+	display: none;
+}
+
+ul#rooster_winner div.votes,
+ul#rooster_name div.votes,
+ul#rooster_winner li.poet,
+ul#rooster_winner div.score,
+ul#rooster_name div.score,
+ul#rooster_winner span.edit,
+ul#rooster_name span.edit {
+	display: none;
+}
+
+ul#rooster_winner li.poet:first-child {
+	display: inherit;
+}
+
+ul#rooster_winner li.poet,
+ul#rooster_name li.poet {
+	border: none;
+}
+
+ul#rooster_all div.score,
+ul#rooster_all span.edit {
+	display: none;
+}
+
+ul#rooster_all h1 {
+	display: inline;
+	float: left;
+}
+
+ul#rooster_all div.votes {
+	width: auto;
+	float: right;
+	padding-bottom: 0;
+}
+
+ul#rooster_score div.votes,
+ul#rooster_score span.edit {
+	display: none;
+}
+
+ul#rooster_score li.poet {
+	border: none;
+}
+
+/* Einzelner Name */
+
+ul#rooster_winner,
+ul#rooster_name h1 {
+	position: absolute;
+	left: -140px;
+	top: 30%;
+	width: auto;
+	margin-left: -0;
+	margin-top: -100px;
+	background: #fff;
+	color: #000;
+	padding: 18px 24px 8px 200px;
+	line-height: 1;
+}
+
+/* Score */
+
+ul#rooster_score h1 {
+	position: absolute;
+	left: -180px;
+	top: 30%;
+	width: auto;
+	margin-left: -0;
+	margin-top: -100px;
+	background: #fff;
+	color: #000;
+	padding: 24px 24px 8px 200px;
+	line-height: 1;
+}
+
+ul#rooster_score div.score {
+	margin-top: 200px;
+}
+
+/* Ranking */
+
+ul#ranking {
+	width: 600px;
+}
+
+ul#ranking div.votes,
+ul#ranking span,
+ul#ranking li.poet a,
+ul#ranking li.poet span.vote {
+	display: none;
+}
+
+ul#ranking h1 {
+	display: inline;
+	float: left;
+}
+
+ul#ranking div.score {
+	float: right;
+}
+
+/************************************************************************************************/
+/*
+/*  Eingabe
+*/
+
+section#addpoet {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 460px;
+	height: 76px;
+	margin: -38px 0 0 -250px;
+	padding: 20px;
+	clear: left;
+	display: none;
+	box-shadow: 0px 0px 60px #333333, 1px 1px 20px #888888;
+}
+
+input#_slam_newpoet {
+	width: 311px;
+	margin-right: 10px;
+}
+
+/************************************************************************************************/
+/*
+/*  Fuss
+*/
+
+div#footer {
+	text-align: center;
+	position: relative;
+	margin: -62px auto 0 auto;
+	width: 100%;
+	height: 52px;
+	padding: 10px 0 0 0;
+	clear: both;
+}

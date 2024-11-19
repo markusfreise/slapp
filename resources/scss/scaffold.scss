@@ -1,0 +1,14 @@
+html {
+    font-size: var(--fs-copy);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--ff-copy);
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+}

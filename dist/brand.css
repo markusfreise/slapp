@@ -1,0 +1,37 @@
+@import "https://use.typekit.net/xov4ydm.css";
+
+@font-face {
+    font-family: baloo;
+    src: url('./fonts/Baloo2-Regular.ttf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: baloo;
+    src: url('./fonts/Baloo2-Bold.ttf');
+    font-weight: bold;
+}
+
+:root {
+
+    --brand-colour: #AE8BE6;
+    --green: #43D9AE;
+    --red: #FF3F67;
+    --ff-copy: 'baloo',sans-serif;
+    --ff-head: 'neusa-next-std',sans-serif;
+
+}
+
+.score__board {
+    border-radius: 10px;
+}
+
+.score__board.isHigh {
+    opacity: 1 !important;
+    color: var(--red);
+}
+
+.score__board.isLow {
+    opacity: 1 !important;
+    color: var(--green);
+}
