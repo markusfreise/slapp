@@ -20699,7 +20699,8 @@ window.addEventListener('load', function () {
           notes: '',
           rank: 0,
           editing: false,
-          round: round ? round : 1
+          round: round ? round : 1,
+          random: Math.floor(Math.random() * 19860)
         });
         if (scores) {
           for (var i = 1; i <= this.scoreBoards; i++) {
@@ -20752,16 +20753,28 @@ window.addEventListener('load', function () {
         if (!this.luckyloser) {
           return false;
         }
-        var groupWinners = [];
+        var roundWinners = [];
         for (var i = 1; i <= this.rounds; i++) {
-          groupWinners.push(this.getPoets('winner', i)[0]);
+          roundWinners.push(this.getPoets('winner', i)[0]);
         }
         ;
-        var overAllWinners = this.getPoets('ranking', 0);
-        var overAllWinnersWithOutGroupWinners = overAllWinners.filter(function (winner) {
-          return groupWinners.indexOf(winner) == -1;
+        console.log(roundWinners);
+        var secondPlace = [];
+        for (var i = 1; i <= this.rounds; i++) {
+          var secondPlaceIs = this.getPoets('ranking', i)[1];
+          secondPlaceIs.diffToWinner = roundWinners[i - 1].total - secondPlaceIs.total;
+          secondPlace.push(secondPlaceIs);
+        }
+        secondPlace.sort(function (a, b) {
+          return a.diffToWinner - b.diffToWinner;
         });
-        return overAllWinnersWithOutGroupWinners[0] == poet;
+        if (secondPlace[0].diffToWinner == secondPlace[1].diffToWinner) {
+          if (secondPlace[0].random < secondPlace[1].random) {
+            secondPlace[0] = secondPlace[1];
+          }
+        }
+        console.log(secondPlace);
+        return secondPlace[0] == poet;
       },
       /**
        * enter score for poet
@@ -20932,8 +20945,24 @@ window.addEventListener('load', function () {
           var overAllWinnersWithOutGroupWinners = overAllWinners.filter(function (winner) {
             return groupwinners.indexOf(winner) == -1;
           });
-          overAllWinnersWithOutGroupWinners[0].sortKey = groupwinners.length;
-          groupwinners.push(overAllWinnersWithOutGroupWinners[0]);
+          if (this.luckyloser) {
+            var secondPlace = [];
+            for (var i = 1; i <= this.rounds; i++) {
+              var secondPlaceIs = this.getPoets('ranking', i)[1];
+              secondPlaceIs.diffToWinner = groupwinners[i - 1].total - secondPlaceIs.total;
+              secondPlace.push(secondPlaceIs);
+            }
+            secondPlace.sort(function (a, b) {
+              return a.diffToWinner - b.diffToWinner;
+            });
+            if (secondPlace[0].diffToWinner == secondPlace[1].diffToWinner) {
+              if (secondPlace[0].random < secondPlace[1].random) {
+                secondPlace[0] = secondPlace[1];
+              }
+            }
+            secondPlace[0].sortKey = groupwinners.length;
+            groupwinners.push(secondPlace[0]);
+          }
           poetsTmp = groupwinners;
           poetsTmp.sort(function (a, b) {
             return b.sortKey - a.sortKey;
@@ -20979,7 +21008,21 @@ window.addEventListener('load', function () {
             this.allPoetsWithoutRoundWinners = this.poets.filter(function (poet) {
               return this.roundWinners.indexOf(poet) == -1;
             }.bind(this));
-            this.roundWinners.push(this.allPoetsWithoutRoundWinners[0]);
+            var secondPlace = [];
+            for (var i = 1; i <= this.rounds; i++) {
+              var secondPlaceIs = this.getPoets('ranking', i)[1];
+              secondPlaceIs.diffToWinner = this.roundWinners[i - 1].total - secondPlaceIs.total;
+              secondPlace.push(secondPlaceIs);
+            }
+            secondPlace.sort(function (a, b) {
+              return a.diffToWinner - b.diffToWinner;
+            });
+            console.log(secondPlace[0].diffToWinner, secondPlace[1].diffToWinner);
+            if (secondPlace[0].diffToWinner == secondPlace[1].diffToWinner) {
+              this.roundWinners.push(secondPlace[2 * Math.floor(Math.random() * 2)]);
+            }
+            console.log(secondPlace);
+            this.roundWinners.push(secondPlace[0]);
           }
           this.poets = this.roundWinners;
           this.poets.forEach(function (poet) {
@@ -21030,7 +21073,6 @@ window.addEventListener('load', function () {
         this.localData = localStorage.getItem('data');
         if (this.localData) {
           var data = JSON.parse(this.localData);
-          console.log(data);
           if (data.poets) {
             this.poets = data.poets;
           }
@@ -21104,7 +21146,6 @@ window.addEventListener('load', function () {
       },
       scoreMissing: function scoreMissing() {
         var isMissing = this.onlyValidScores(this.getCurrentPoet).length < this.scoreBoards;
-        console.log(this.getCurrentPoet, isMissing);
         return isMissing;
       }
     },
