@@ -44,15 +44,27 @@ window.addEventListener('load',function() {
             }
         },
         methods: {
+            /**
+             * set the current round
+             * @param {integer} index
+             */
             setSetRound: function( ) {
                 this.setRound = !this.setRound;
             },
+            /**
+             * set the current poet
+             * @param {integer} index
+             */
             setPoet: function( index ) {
                 this.currentPoet = index;
                 this.iteratePoet = index;
                 this.screen = 'poet';
                 this.updateAll();
             },
+            /**
+             * set page/screen to show
+             * @param {string} screen - screen to show
+             */
             setPage: function( screen ) {
                 this.screen = screen;
                 if(this.screen == 'poetscore') {
@@ -93,13 +105,22 @@ window.addEventListener('load',function() {
                 }, 100);
                 this.updateAll();
             },
+            /**
+             * lock input from keyboard
+             */
             lockKeys: function() {
-                console.log("FF");
                 this.keysLocked = true;
             },
+            /**
+             * unlock input from keyboard
+             */
             unlockKeys: function() {
                 this.keysLocked = false;
             },
+            /**
+             * general key down handler
+             * @param {object} ev - event from keydown
+             */
             keyDown: function( ev ) {
                 var key = ev.key.toUpperCase();
                 var keysForScore = ["0","1","2","3","4","5","6","7","8","9",".","x","c"];
@@ -262,6 +283,13 @@ window.addEventListener('load',function() {
                     
                 }
             },
+            /**
+             * adds a poet
+             * @param {string} name - name of poet
+             * @param {string} slam - home slam of poet
+             * @param {boolean} scores - generate random scores
+             * @param {integer} round - round number
+             */
             addPoet: function( name, slam, scores, round ) {
                 this.poets.push({name: name!=''?name:'Please enter name', slam: slam, scores: [], total: 0, notes: '', rank: 0, editing: false, round: round?round:1});
                 if(scores) {
@@ -274,6 +302,11 @@ window.addEventListener('load',function() {
                     }
                 }
             },
+            /**
+             * looks if a poet needs to highlighted because groupwinner, lucky loser or overall winner
+             * @param {integer} rounds - number of rounds (1 or 2)
+             * @param {boolean} scores - generate random scores
+             */
             demoPoets: function( rounds,scores) {
                 this.addPoet('Bruce Wayne',"Wayne Manor",scores, 1);
                 this.addPoet('Vicky Vale',"Gotham",scores, 1);
@@ -282,12 +315,25 @@ window.addEventListener('load',function() {
                 this.addPoet('Steve Rogers',"Destroy Hydra",scores,rounds);
                 this.addPoet('Wanda Maximov',"Multiverse",scores,rounds);
             },
+            /**
+             * shuffle all poets
+             */
             shufflePoets: function() {
                 this.poets.sort(() => Math.random() - 0.5);
             },
+            /**
+             * deletes a poet
+             * @param {integer} index - index of poet
+             */
             deletePoet: function(index) {
                 this.poets.splice(index,1);
             },
+            /**
+             * looks if a poet needs to highlighted because groupwinner, lucky loser or overall winner
+             * @param {string} mode - winner: get winner, top3: get top3, ranking: get ranking, finalists: get finalists
+             * @param {object} poet - poet object
+             * @returns {integer} index - index of poet
+             */
             highlightPoet: function(poet, index) {
                 if((index < this.topPoets && !this.luckyloser) || index == 0 ) {
                     return true;
@@ -305,6 +351,10 @@ window.addEventListener('load',function() {
                 });
                 return overAllWinnersWithOutGroupWinners[0] == poet;
             },
+            /**
+             * enter score for poet
+             * @param {object} ev - event from keydown
+             */
             enterScore: function( ev ) {
                 if(this.screen != 'poetscores') {
                     return;
@@ -342,6 +392,9 @@ window.addEventListener('load',function() {
                     this.updateAll();
                 }
             },
+            /**
+             * calculates the scores
+             */
             calculateScores: function() {
                 var score = 0;
                 this.poets.forEach(function(poet) {
@@ -411,9 +464,18 @@ window.addEventListener('load',function() {
                 }.bind(this));
                 console.log('Ranking ---------------------------------------');
             },
+            /**
+             * recalcs everything
+             */
             recalc: function() {
                 this.updateAll();
             },
+            /**
+             * get list of poets
+             * @param {string} mode - winner: get winner, top3: get top3, ranking: get ranking, finalists: get finalists
+             * @param {number} round - round number
+             * @returns {array} - list of poets
+             */
             getPoets: function(mode,round) {
                 if( round == undefined ) {
                     round = this.rounds>1?this.showRound:1;
@@ -466,6 +528,10 @@ window.addEventListener('load',function() {
                 }
                 return poetsTmp;
             },
+            /**
+             * clean up scores of poet
+             * @param {oject} poet - poet object
+             */
             onlyValidScores: function(poet) {
                 if(!poet?.scores) {
                     return [];
@@ -478,6 +544,9 @@ window.addEventListener('load',function() {
                 });
                 return validScores;
             },
+            /**
+             * Generate the finale based on the set rules
+             */
             makeFinale: function() {
                 if( this.rounds == 1 ) {
                     this.poets = this.getPoets('top3');
@@ -509,6 +578,9 @@ window.addEventListener('load',function() {
                     return;
                 }
             },
+            /**
+             * updates all data
+             */
             updateAll: function() {
                 var poetsJSON = JSON.stringify(this.poets);
                 if(poetsJSON != this.lastJSONPoets) {
@@ -534,6 +606,9 @@ window.addEventListener('load',function() {
                     }
                 }
             },
+            /**
+             * Gets data from local storage
+             */
             fetchData: function() {
                 if(localStorage.getItem('data')==this.localData) {
                     return;

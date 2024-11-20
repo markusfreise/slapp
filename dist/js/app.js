@@ -20438,15 +20438,27 @@ window.addEventListener('load', function () {
       };
     },
     methods: {
+      /**
+       * set the current round
+       * @param {integer} index
+       */
       setSetRound: function setSetRound() {
         this.setRound = !this.setRound;
       },
+      /**
+       * set the current poet
+       * @param {integer} index
+       */
       setPoet: function setPoet(index) {
         this.currentPoet = index;
         this.iteratePoet = index;
         this.screen = 'poet';
         this.updateAll();
       },
+      /**
+       * set page/screen to show
+       * @param {string} screen - screen to show
+       */
       setPage: function setPage(screen) {
         this.screen = screen;
         if (this.screen == 'poetscore') {
@@ -20490,13 +20502,22 @@ window.addEventListener('load', function () {
         }, 100);
         this.updateAll();
       },
+      /**
+       * lock input from keyboard
+       */
       lockKeys: function lockKeys() {
-        console.log("FF");
         this.keysLocked = true;
       },
+      /**
+       * unlock input from keyboard
+       */
       unlockKeys: function unlockKeys() {
         this.keysLocked = false;
       },
+      /**
+       * general key down handler
+       * @param {object} ev - event from keydown
+       */
       keyDown: function keyDown(ev) {
         var key = ev.key.toUpperCase();
         var keysForScore = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "x", "c"];
@@ -20662,6 +20683,13 @@ window.addEventListener('load', function () {
             break;
         }
       },
+      /**
+       * adds a poet
+       * @param {string} name - name of poet
+       * @param {string} slam - home slam of poet
+       * @param {boolean} scores - generate random scores
+       * @param {integer} round - round number
+       */
       addPoet: function addPoet(name, slam, scores, round) {
         this.poets.push({
           name: name != '' ? name : 'Please enter name',
@@ -20683,6 +20711,11 @@ window.addEventListener('load', function () {
           }
         }
       },
+      /**
+       * looks if a poet needs to highlighted because groupwinner, lucky loser or overall winner
+       * @param {integer} rounds - number of rounds (1 or 2)
+       * @param {boolean} scores - generate random scores
+       */
       demoPoets: function demoPoets(rounds, scores) {
         this.addPoet('Bruce Wayne', "Wayne Manor", scores, 1);
         this.addPoet('Vicky Vale', "Gotham", scores, 1);
@@ -20691,14 +20724,27 @@ window.addEventListener('load', function () {
         this.addPoet('Steve Rogers', "Destroy Hydra", scores, rounds);
         this.addPoet('Wanda Maximov', "Multiverse", scores, rounds);
       },
+      /**
+       * shuffle all poets
+       */
       shufflePoets: function shufflePoets() {
         this.poets.sort(function () {
           return Math.random() - 0.5;
         });
       },
+      /**
+       * deletes a poet
+       * @param {integer} index - index of poet
+       */
       deletePoet: function deletePoet(index) {
         this.poets.splice(index, 1);
       },
+      /**
+       * looks if a poet needs to highlighted because groupwinner, lucky loser or overall winner
+       * @param {string} mode - winner: get winner, top3: get top3, ranking: get ranking, finalists: get finalists
+       * @param {object} poet - poet object
+       * @returns {integer} index - index of poet
+       */
       highlightPoet: function highlightPoet(poet, index) {
         if (index < this.topPoets && !this.luckyloser || index == 0) {
           return true;
@@ -20717,6 +20763,10 @@ window.addEventListener('load', function () {
         });
         return overAllWinnersWithOutGroupWinners[0] == poet;
       },
+      /**
+       * enter score for poet
+       * @param {object} ev - event from keydown
+       */
       enterScore: function enterScore(ev) {
         if (this.screen != 'poetscores') {
           return;
@@ -20754,6 +20804,9 @@ window.addEventListener('load', function () {
           this.updateAll();
         }
       },
+      /**
+       * calculates the scores
+       */
       calculateScores: function calculateScores() {
         var score = 0;
         this.poets.forEach(function (poet) {
@@ -20823,9 +20876,18 @@ window.addEventListener('load', function () {
         }.bind(this));
         console.log('Ranking ---------------------------------------');
       },
+      /**
+       * recalcs everything
+       */
       recalc: function recalc() {
         this.updateAll();
       },
+      /**
+       * get list of poets
+       * @param {string} mode - winner: get winner, top3: get top3, ranking: get ranking, finalists: get finalists
+       * @param {number} round - round number
+       * @returns {array} - list of poets
+       */
       getPoets: function getPoets(mode, round) {
         if (round == undefined) {
           round = this.rounds > 1 ? this.showRound : 1;
@@ -20879,6 +20941,10 @@ window.addEventListener('load', function () {
         }
         return poetsTmp;
       },
+      /**
+       * clean up scores of poet
+       * @param {oject} poet - poet object
+       */
       onlyValidScores: function onlyValidScores(poet) {
         if (!(poet !== null && poet !== void 0 && poet.scores)) {
           return [];
@@ -20891,6 +20957,9 @@ window.addEventListener('load', function () {
         });
         return validScores;
       },
+      /**
+       * Generate the finale based on the set rules
+       */
       makeFinale: function makeFinale() {
         if (this.rounds == 1) {
           this.poets = this.getPoets('top3');
@@ -20923,6 +20992,9 @@ window.addEventListener('load', function () {
           return;
         }
       },
+      /**
+       * updates all data
+       */
       updateAll: function updateAll() {
         var poetsJSON = JSON.stringify(this.poets);
         if (poetsJSON != this.lastJSONPoets) {
@@ -20948,6 +21020,9 @@ window.addEventListener('load', function () {
           }
         }
       },
+      /**
+       * Gets data from local storage
+       */
       fetchData: function fetchData() {
         if (localStorage.getItem('data') == this.localData) {
           return;
