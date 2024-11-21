@@ -16,7 +16,7 @@
 <body class="hide">
     <div id="app">
         <div class="bgVideo" v-if="bgVideo">
-            <video :src="'video/'+brand+'/bg.mp4'" autoplay loop muted></video>
+            <video :src="'video/'+brand+'/bg.mp4'" autoplay loop></video>
         </div>
         <div class="hostBar" v-if="isHost" :class="{ locked: keysLocked }">
             <span class="button" @click="isHost = !isHost"><span>Host</span><span>H</span></span>
@@ -44,13 +44,13 @@
         <!-- RULES VIDEO -->
         <!-- RULES VIDEO -->
         <section id="rules" class="sponsor" v-if="showRules">
-            <video :src="'video/'+brand+'/rules.mp4'" autoplay loop muted></video>
+            <video :src="'video/'+brand+'/rules.mp4'" autoplay></video>
         </section>
         <!-- SPONSORS VIDEO -->
         <!-- SPONSORS VIDEO -->
         <!-- SPONSORS VIDEO -->
         <section id="sponsor" class="sponsor" v-if="showSponsor">
-            <video :src="'video/'+brand+'/loop.mp4'" autoplay loop muted></video>
+            <video :src="'video/'+brand+'/loop.mp4'" autoplay loop></video>
         </section>
         <!-- LOGO -->
         <!-- LOGO -->

@@ -345,7 +345,6 @@ window.addEventListener('load',function() {
                 for(var i = 1; i <= this.rounds; i++) {
                     roundWinners.push(this.getPoets('winner',i)[0]);
                 };
-                console.log(roundWinners);
                 var secondPlace = [];
                 for( var i = 1; i <= this.rounds; i++ ) {
                     var secondPlaceIs = this.getPoets('ranking',i)[1];
@@ -360,7 +359,6 @@ window.addEventListener('load',function() {
                         secondPlace[0] = secondPlace[1];
                     }
                 }
-                console.log(secondPlace);
                 return secondPlace[0] == poet;
             },
             /**
