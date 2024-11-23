@@ -182,7 +182,7 @@
                             <span class="total bold">${ p.total }</span>
                         </div>
                         <div class="scores">
-                            <div class="score" v-for="s in scoreBoards">
+                            <div class="score" v-for="s in 1*scoreBoards">
                                 <input @focus="lockKeys" @blur="unlockKeys" type="text" v-model="p.scores[s-1]" class="score__board" />
                             </div>
                         </div>
