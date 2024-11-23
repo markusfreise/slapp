@@ -17,3 +17,9 @@ This is a web application you can use to run an Poetry Slam with score boards fo
 * place your videos in dist/video for background animation, sponsor videos and so on
 * put your logo as a png in dist/images with then name of your css file as prefix
 * go for it.
+
+## How to contribute
+
+* Please fork the repository and create a pull request.
+* Please use the issue tracker for bugs and feature requests.
+* Please respect the code of conduct.
