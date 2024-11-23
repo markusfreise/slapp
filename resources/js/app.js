@@ -56,6 +56,7 @@ window.addEventListener('load',function() {
              * @param {integer} index
              */
             setPoet: function( index ) {
+                console.log("setPoet");
                 this.currentPoet = index;
                 this.iteratePoet = index;
                 this.screen = 'poet';
@@ -138,7 +139,7 @@ window.addEventListener('load',function() {
                     case "7":
                     case "8":
                     case "9":
-                        if(ev.key*1 <= this.poets.length || this.setRound ) {
+                        if((ev.key)*1 <= this.poets.length || this.setRound ) {
                             if(ev.key == 0) {
                                 ev.key = 10;
                             }
@@ -627,23 +628,24 @@ window.addEventListener('load',function() {
                     this.calculateScores();
                     this.lastJSONPoets = poetsJSON;
                 }
-                if(this.isHost || this.isSingle) {
-                    var data = JSON.stringify({
-                        poets: this.poets,
-                        screen: this.screen,
-                        title: this.title,
-                        bgColor: this.bgColor,
-                        fgColor: this.fgColor,
-                        secColor: this.secColor,
-                        bumperAnimation: this.bumperAnimation,
-                        scoreBoards: this.scoreBoards,
-                        lowHighStrike: this.lowHighStrike,
-                        decimals: this.decimals,
-                        currentPoet: this.currentPoet,
-                    });
-                    if(data != localStorage.getItem('data')) {
-                        localStorage.setItem('data', data);
-                    }
+                if(!this.isHost) {
+                    return;
+                }
+                var data = JSON.stringify({
+                    poets: this.poets,
+                    screen: this.screen,
+                    title: this.title,
+                    bgColor: this.bgColor,
+                    fgColor: this.fgColor,
+                    secColor: this.secColor,
+                    bumperAnimation: this.bumperAnimation,
+                    scoreBoards: this.scoreBoards,
+                    lowHighStrike: this.lowHighStrike,
+                    decimals: this.decimals,
+                    currentPoet: this.currentPoet,
+                });
+                if(data != localStorage.getItem('data')) {
+                    localStorage.setItem('data', data);
                 }
             },
             /**
@@ -679,6 +681,7 @@ window.addEventListener('load',function() {
                     }
                     if(data.currentPoet) {
                         this.currentPoet = data.currentPoet;
+                        console.log(this.currentPoet);
                     }
                 }
             }
