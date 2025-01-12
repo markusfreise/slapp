@@ -385,7 +385,7 @@ window.addEventListener('load',function() {
                         this.getCurrentPoet.scores = [];
                         break;
                 }
-                if(key >= 0 && key <= 9) {
+                if(key >= 0 && key <= 9 && this.currentScoreEdit < this.scoreBoards) {
                     if(this.currentScoreEdit >= 0 && this.currentScoreEdit <= this.scoreBoards-1) {
                         if(!this.decimals || (key == "0" && this.currentScoreDecimal == '')) {
                                 var score = parseInt(key);
@@ -398,7 +398,7 @@ window.addEventListener('load',function() {
                             } else {
                                 this.currentScoreDecimal += "."+key;
                                 this.poets[this.currentPoet].scores[this.currentScoreEdit] = this.currentScoreDecimal;
-                                this.currentScoreEdit = (this.currentScoreEdit < this.scoreBoards-1)?this.currentScoreEdit+1:0;
+                                this.currentScoreEdit = (this.currentScoreEdit <= this.scoreBoards)?this.currentScoreEdit+1:this.scoreBoards;
                                 this.currentScoreDecimal = '';
                             }                        
                         }
