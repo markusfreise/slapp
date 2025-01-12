@@ -20507,6 +20507,47 @@ window.addEventListener('load', function () {
         this.updateAll();
       },
       /**
+       * skip through screens
+       */
+      nextScreen: function nextScreen() {
+        var i = 0;
+        while (i < this.screens.length && this.screens[i] != this.screen) {
+          i++;
+        }
+        if (i < this.screens.length - 1) {
+          this.screen = this.screens[i + 1];
+        } else {
+          this.screen = this.screens[0];
+        }
+        this.setPage(this.screen);
+        if (this.screen == 'poet') {
+          var poetWithScoreZero = this.poets.find(function (poet) {
+            return poet.total === 0;
+          });
+          this.currentPoet = this.poets.indexOf(poetWithScoreZero);
+          if (this.currentPoet < 0) {
+            this.currentPoet = this.iteratePoet;
+            this.iteratePoet = this.iteratePoet < this.poets.length - 1 ? this.iteratePoet + 1 : 0;
+          }
+          this.currentScoreEdit = 0;
+          this.currentScoreDecimal = '';
+        }
+        if (this.screen == 'poetscores') {
+          window.setTimeout(function () {
+            document.getElementById('poetscores').focus();
+          }, 100);
+        }
+        ;
+        if (this.screen == 'poetscore') {
+          window.setTimeout(function () {
+            document.getElementById('total').classList.remove('show');
+            document.getElementById('total').classList.add('show');
+          }, 100);
+        }
+        ;
+        this.updateAll();
+      },
+      /**
        * lock input from keyboard
        */
       lockKeys: function lockKeys() {
@@ -20555,42 +20596,7 @@ window.addEventListener('load', function () {
             }
             break;
           case "N":
-            var i = 0;
-            while (i < this.screens.length && this.screens[i] != this.screen) {
-              i++;
-            }
-            if (i < this.screens.length - 1) {
-              this.screen = this.screens[i + 1];
-            } else {
-              this.screen = this.screens[0];
-            }
-            this.setPage(this.screen);
-            if (this.screen == 'poet') {
-              var poetWithScoreZero = this.poets.find(function (poet) {
-                return poet.total === 0;
-              });
-              this.currentPoet = this.poets.indexOf(poetWithScoreZero);
-              if (this.currentPoet < 0) {
-                this.currentPoet = this.iteratePoet;
-                this.iteratePoet = this.iteratePoet < this.poets.length - 1 ? this.iteratePoet + 1 : 0;
-              }
-              this.currentScoreEdit = 0;
-              this.currentScoreDecimal = '';
-            }
-            if (this.screen == 'poetscores') {
-              window.setTimeout(function () {
-                document.getElementById('poetscores').focus();
-              }, 100);
-            }
-            ;
-            if (this.screen == 'poetscore') {
-              window.setTimeout(function () {
-                document.getElementById('total').classList.remove('show');
-                document.getElementById('total').classList.add('show');
-              }, 100);
-            }
-            ;
-            this.updateAll();
+            this.nextScreen();
             break;
           case "G":
             this.setRound = !this.setRound;

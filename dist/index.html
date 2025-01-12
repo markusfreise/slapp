@@ -21,6 +21,7 @@
         <div class="hostBar" v-if="isHost" :class="{ locked: keysLocked }">
             <span class="button" @click="isHost = !isHost"><span>Host</span><span>H</span></span>
             <span class="button" @click="isSingle = !isSingle"><span>Single</span><span>M</span></span>
+            <span class="button" @click="nextStep"><span>Step by Step</span><span>N</span></span>
             <span class="button" @click="setSetRound"><span>Runde</span><span>G</span></span>
             <span class="button"><span>Poet</span><span>1-0</span></span>
             <span class="button" @click="setPage('poet')"><span>Name</span><span>P</span></span>
@@ -35,6 +36,7 @@
             <span class="button" @click="setPage('logo')"><span>Logo</span><span>Y</span></span>
             <span class="button" @click="setPage('sponsor')"><span>Sponsor</span><span>A</span></span>
             <span class="button" @click="setPage('rules')"><span>Regeln</span><span>I</span></span>
+            <span class="button"></span>
         </div>
         <div class="statusBar" v-if="isHost && rounds > 1">
             <span v-if="!setRound">Round ${ showRound }</span>
