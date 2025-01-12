@@ -20486,9 +20486,12 @@ window.addEventListener('load', function () {
             index++;
             if (this.topPoets > 1) {
               this.top3Interval = window.setInterval(function () {
+                console.log(index);
                 document.querySelectorAll('.poetrank')[index].classList.add('show');
-                if (index < this.topPoets + 1) {
+                if (index + 1 < this.topPoets) {
                   index++;
+                } else {
+                  window.clearInterval(this.top3Interval);
                 }
               }.bind(this), 4000);
             }
@@ -20629,7 +20632,7 @@ window.addEventListener('load', function () {
             this.setPage('winner');
             this.updateAll();
             break;
-          case "W":
+          case "Q":
             this.makeFinale();
             this.updateAll();
             break;
@@ -20659,10 +20662,10 @@ window.addEventListener('load', function () {
             this.updateAll();
             break;
           case "Z":
-            this.rounds = 2;
+            this.rounds = 1;
             this.poets = [];
-            this.luckyloser = true;
-            this.demoPoets(2, true);
+            this.luckyloser = false;
+            this.demoPoets(1, true);
             this.updateAll();
             this.setPage('poetlist');
             break;
@@ -20934,7 +20937,9 @@ window.addEventListener('load', function () {
         if (mode == 'finalists') {
           var groupwinners = [];
           for (var i = 1; i <= this.rounds; i++) {
-            groupwinners.push(this.getPoets('winner', i)[0]);
+            for (var j = 1; j <= this.topPoets; j++) {
+              groupwinners.push(this.getPoets('ranking', i)[j - 1]);
+            }
           }
           ;
           groupwinners.forEach(function (poet, i) {
