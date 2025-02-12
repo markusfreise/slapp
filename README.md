@@ -1,3 +1,8 @@
+
+![SLAPP 2![SLAPP 2 0](https://github.com/user-attachments/assets/a75aa007-c499-4373-893a-8883a9122f3a)
+ 0](https://github.com/user-attachments/assets/8d71f481-78de-4d4c-afb5-19f9bbeecb61)
+![SLAPP 2 0](https://github.com/user-attachments/assets/e52b6a1e-bff8-4c1a-8eda-cb60da27aa10)
+
 # SLAPP!
 
 This is a web application you can use to run an Poetry Slam with score boards for the judges.
